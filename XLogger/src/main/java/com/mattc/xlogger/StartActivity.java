@@ -23,7 +23,7 @@ public class StartActivity extends Activity {
     }
 
     public void btnClick_editExercises(View view) {
-        Intent anIntent = new Intent(this, ExerciseActivity.class);
+        Intent anIntent = new Intent(this, WodActivity.class);
         startActivity(anIntent);
         // Switch to view for editing exercises.
     }

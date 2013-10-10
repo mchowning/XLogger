@@ -9,17 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ExerciseActivity extends FragmentActivity implements ActionBar.TabListener {
+public class WodActivity extends FragmentActivity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,10 +36,11 @@ public class ExerciseActivity extends FragmentActivity implements ActionBar.TabL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise);
+        setContentView(R.layout.activity_wod);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
@@ -104,6 +102,8 @@ public class ExerciseActivity extends FragmentActivity implements ActionBar.TabL
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private static final int NUM_PAGES = 2;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -113,17 +113,30 @@ public class ExerciseActivity extends FragmentActivity implements ActionBar.TabL
             // getItem is called to instantiate the fragment for the given page.
             // Return a DummySectionFragment (defined as a static inner class
             // below) with the page number as its lone argument.
-            Fragment fragment = new DummySectionFragment();
+/*            Fragment fragment = new DummySectionFragment();
             Bundle args = new Bundle();
             args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
             fragment.setArguments(args);
+            return fragment;*/
+
+            Fragment fragment = null;
+            switch(position) {
+                case 0:
+                    fragment = new MovementSectionFragment();
+                    break;
+                case 1:
+                    fragment = new WodSectionFragment();
+                    break;
+                default:
+                    break;
+            }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return NUM_PAGES;
         }
 
         @Override
@@ -134,8 +147,6 @@ public class ExerciseActivity extends FragmentActivity implements ActionBar.TabL
                     return getString(R.string.title_section1).toUpperCase(l);
                 case 1:
                     return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
         }
@@ -159,10 +170,49 @@ public class ExerciseActivity extends FragmentActivity implements ActionBar.TabL
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_exercise_dummy, container, false);
+            assert rootView != null;
             TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
             dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
 
+    /**
+     * A hopefully-not-so-dummy fragment for the Movement section.
+     */
+    public static class MovementSectionFragment extends Fragment {
+
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_movement_section, container, false);
+            assert rootView != null;
+            TextView dummyTextView = (TextView) rootView.findViewById();
+            dummyTextView.setText("Movement section class");
+            return rootView;
+        }
+
+        // TODO
+    }
+
+    /**
+     * A hopefully-not-so-dummy fragment for the Wod section.
+     */
+    public static class WodSectionFragment extends Fragment {
+
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_wod_section, container, false);
+            assert rootView != null;
+            TextView dummyTextView = (TextView) rootView.findViewById();
+            dummyTextView.setText("Wod Fragment Class");
+            return rootView;
+
+        }
+
+        // TODO
+    }
 }
